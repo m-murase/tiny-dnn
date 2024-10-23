@@ -26,7 +26,8 @@ class Conv2dOp : public core::OpKernel {
     // incomimg/outcoming data
     const tensor_t &in_data = context.input(0);
     const tensor_t &W       = context.input(1);
-    const tensor_t &bias    = context.input(2);
+    // workaround to cope with segmentation fault if params.has_bias == false
+    const tensor_t &bias    = params.has_bias ? context.input(2) : tensor_t();
     tensor_t &out_data      = context.output(0);
 
     // initialize outputs
